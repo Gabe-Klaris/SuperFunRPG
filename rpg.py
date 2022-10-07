@@ -6,10 +6,16 @@ class thing():
         self.location = location
         self.items = items
         self.weapon = weapon
-class place():
-    def __init__(self, name, enemies, item, pathleft, pathright):
+class weapon():
+    def __init__(self,name,damage):
         self.name = name
-        self.enemies = enemies
+        self.damage = damage
+class place():
+    def __init__(self, name, enemy1, enemy2, enemy3, item, pathleft, pathright):
+        self.name = name
+        self.enemy1 = enemy1
+        self.enemy2 = enemy2
+        self.enemy3 = enemy3
         self.item = item
         self.pathleft = pathleft
         self.pathright = pathright
@@ -71,9 +77,8 @@ computer = place("computer","", "", "", "")
 ##zipdesk = place("matt zippin's desk")
 ##poster = place("poster")
 ##hallwaystart("hallwaystart")
-paths = ["computer", "white board"]
-items = [""]
-
+paths = [start.pathleft,start.pathright]
+items = [start.item]
 
 
 
