@@ -1,3 +1,5 @@
+import combat
+
 class thing():
     def __init__(self, name, damage, health, location, items, weapon):
         self.name = name
@@ -33,6 +35,7 @@ def locationchanger(string):
         print("na")
 def battle():
     print("hi")
+    # No reason to actually run any combat from main yet
 def menu():
     print("what would you like to do?:")
     check = 0
