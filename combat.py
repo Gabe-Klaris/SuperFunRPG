@@ -1,9 +1,12 @@
+import random
+
 class Attack():
-    def __init__(self, base, ignores_dfn = False):
+    def __init__(self, name = "an attack", base = 1, ignores_dfn = False):
+        self.name = name
         self.base = base
         self.ignores_dfn = ignores_dfn
-    def execute(self):
-        return {"quantity": self.base, "ignores_dfn": self.ignores_dfn}
+    def execute(self, str):
+        return {"name": self.name, "quantity": self.base*str, "ignores_dfn": self.ignores_dfn}
 
 
 class Fighter():
@@ -15,7 +18,7 @@ class Fighter():
         if attacks:
             self.attacks = attacks
         else:
-            self.attacks = stats.get("attack")
+            self.attacks = stats.get("attacks")
 
     def damage(self, damage):
         taken = damage.get("quantity")
@@ -24,8 +27,8 @@ class Fighter():
         self.hp -= taken
 
     def attack(self):
-        attack_out = self.attacks.execute()
-        attack_out["quantity"] *= self.str
+        this_attack = random.choice(self.attacks)
+        attack_out = this_attack.execute(self.str)
         return attack_out
 
     def is_alive(self):
@@ -36,14 +39,16 @@ class Fighter():
         return self.name
 
 
-slash = Attack(base = 5)
-stab = Attack(base = 2, ignores_dfn = True)
+slash = Attack("slash", base = 5)
+stab = Attack("stab", base = 2, ignores_dfn = True)
+bash = Attack("bash", base = 10)
+slam = Attack("slam", 5, True)
 monster_test = {
     "name": "Goofy Goblin",
     "hp": 10,
     "str": 2,
     "dfn": 0,
-    "attack": stab
+    "attacks": [stab, slash]
 }
 player_test = {
     "name": "Big Hero Man",
@@ -63,11 +68,10 @@ def battle(f1: Fighter, f2: Fighter):
 
         f1_attack = f1.attack()
         f2.damage(f1_attack)
-        print(f"{f1_name} hits {f2_name} for {f1_attack['quantity']} damage, leaving {f2_name} with {f2.get_hp():0.1f} health")
+        print(f"{f1_name} uses {f1_attack['name']} on {f2_name} for {f1_attack['quantity']} damage, leaving {f2_name} with {f2.get_hp():0.1f} health")
         f2_attack = f2.attack()
         f1.damage(f2_attack)
-        print(f"{f2_name} hits {f1_name} for {f2_attack['quantity']} damage, leaving {f1_name} with {f1.get_hp():0.1f} health")
-        
+        print(f"{f2_name} uses {f2_attack['name']} on {f1_name} for {f2_attack['quantity']} damage, leaving {f1_name} with {f1.get_hp():0.1f} health")
         round += 1
     
     if f1.is_alive():
@@ -82,6 +86,6 @@ def battle(f1: Fighter, f2: Fighter):
 
 def test_battle():
     monster = Fighter(monster_test)
-    player = Fighter(player_test, attacks = slash)
+    player = Fighter(player_test, attacks = [bash, slam])
     battle(player, monster)
 test_battle()
