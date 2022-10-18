@@ -1,19 +1,23 @@
+from importlib.metadata import PathDistribution
 import combat
 
-class thing():
-    def __init__(self, name, damage, health, location, items, weapon):
+class players():
+    def __init__(self, name, attack, speed, health, place, item):
         self.name = name
-        self.damage = damage
+        self.attack = attack
+        self.speed = speed
         self.health = health
-        self.location = location
-        self.items = items
-        self.weapon = weapon
-class weapon():
-    def __init__(self,name,damage):
+        self.place = place
+        self.item = item
+class enemy():
+    def __init__(self,name,attack,health,speed,item):
         self.name = name
-        self.damage = damage
+        self.attack = attack
+        self.health = health
+        self.speed = speed
+        self.item = item
 class place():
-    def __init__(self, name, enemy1, enemy2, enemy3, item, pathleft, pathright):
+    def __init__(self, name, enemy1, enemy2, enemy3, item, pathleft, pathright,pathup,pathdown):
         self.name = name
         self.enemy1 = enemy1
         self.enemy2 = enemy2
@@ -21,6 +25,8 @@ class place():
         self.item = item
         self.pathleft = pathleft
         self.pathright = pathright
+        self.pathup = pathup
+        self.pathdown = pathdown
 
 def locationchanger(string):
     if string == "computer":
@@ -36,7 +42,7 @@ def locationchanger(string):
         paths.append(computer.pathright)
         items.clear()
         items.append(place.item)
-        player.location = "white board"
+        Player.location = "white board"
     else:
         print("na")
 def battle():
@@ -52,7 +58,8 @@ Pick up
 Location""")
         answer = input("").lower()
         if answer == "move":
-            print("you can move to " + paths[0] + "or " + paths[1])
+            for i in paths:
+                print("you can move to", i)
             check = 1
             move_to = input("").lower()
             locationchanger(move_to)
@@ -69,18 +76,15 @@ Location""")
     
 playername = input("Hello player, what is your name? ")
 
-start = place("Start place", "none" , "none" , "computer", "white board")
-
-Player = thing(playername,10,100, start.name, "", "")
+start = place("Tavern",'','','','','Back Alley','','','')
+Player = players(playername,10,1,10,start,'')
 #computerlab = place("computer lab", "basic item" , "basic item", "hallway")
 #hallway = place("hallway" , "yeah", "yeah", "wade")
 #wadeL = place("First floor of wade", "k", "k", "Second floor")
-whiteboard = place("Whiteboard", "", "", "", "")
-computer = place("computer","", "", "", "")
 ##zipdesk = place("matt zippin's desk")
 ##poster = place("poster")
 ##hallwaystart("hallwaystart")
-paths = [start.pathleft,start.pathright]
+paths = [start.pathleft,start.pathright,start.pathup]
 items = [start.item]
 
 
@@ -89,7 +93,7 @@ items = [start.item]
 
 def main():
         print("Welcome to Cool RPG, " + Player.name + " this is the start of a great game")
-        print("Currently you are in the " + Player.location)
+        print("Currently you are in the",Player.place.name)
         menu()
     
 
