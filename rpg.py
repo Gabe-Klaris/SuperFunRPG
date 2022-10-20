@@ -1,6 +1,6 @@
 from importlib.metadata import PathDistribution
 import combat
-
+places = []
 class players():
     def __init__(self, name, attack, speed, health, place, item):
         self.name = name
@@ -27,24 +27,22 @@ class place():
         self.pathright = pathright
         self.pathup = pathup
         self.pathdown = pathdown
+        places.append(self)
 
-def locationchanger(string):
-    if string == "computer":
-        paths.clear()
-        paths.append(computer.pathleft)
-        paths.append(computer.pathright)
-        items.clear()
-        items.append(place.item)
-        player.location = "computer"
-    elif string == "white board":
-        paths.clear()
-        paths.append(computer.pathleft)
-        paths.append(computer.pathright)
-        items.clear()
-        items.append(place.item)
-        Player.location = "white board"
-    else:
-        print("na")
+def locationchanger(new_location):
+    for i in paths:
+        for j in places:
+            if new_location == i.lower() and new_location == j.name.lower():   
+                Player.place = j
+                paths.clear()
+                paths.append(j.pathleft)
+                paths.append(j.pathright)
+                paths.append(j.pathup)
+                paths.append(j.pathdown)
+                items.clear()
+                items.append(j.item)
+                return("You have moved to " + j.name)
+    return("not a valid location")
 def battle():
     print("hi")
     # No reason to actually run any combat from main yet
@@ -62,7 +60,7 @@ Location""")
                 print("you can move to", i)
             check = 1
             move_to = input("").lower()
-            locationchanger(move_to)
+            print(locationchanger(move_to))
         elif answer == "check inventory":
             print("here is your inventory")
             print(Player.items)
@@ -77,6 +75,7 @@ Location""")
 playername = input("Hello player, what is your name? ")
 
 start = place("Tavern",'','','','','Back Alley','','','')
+Back_Alley = place("Back Alley",'','','','','','','','')
 Player = players(playername,10,1,10,start,'')
 #computerlab = place("computer lab", "basic item" , "basic item", "hallway")
 #hallway = place("hallway" , "yeah", "yeah", "wade")
