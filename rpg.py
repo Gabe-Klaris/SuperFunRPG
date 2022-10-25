@@ -1,5 +1,5 @@
 from importlib.metadata import PathDistribution
-import combat
+#import combat
 places = []
 class players():
     def __init__(self, name, attack, speed, health, place, item):
@@ -57,7 +57,8 @@ Location""")
         answer = input("").lower()
         if answer == "move":
             for i in paths:
-                print("you can move to", i)
+                if i != "":
+                    print("you can move to", i)
             check = 1
             move_to = input("").lower()
             print(locationchanger(move_to))
@@ -75,7 +76,10 @@ Location""")
 playername = input("Hello player, what is your name? ")
 
 start = place("Tavern",'','','','','Back Alley','','','')
-Back_Alley = place("Back Alley",'','','','','','','','')
+Back_Alley = place("Back Alley",'','','','','Street','Tavern','Alchemy Shop','')
+Street = place("Street,'",'','','','','Street3','Street','Street4','Street2')
+Alchemy_Shop = place("Alchemy Shop",'','','','','','','Back Room','Street')
+Street2 = place('street')
 Player = players(playername,10,1,10,start,'')
 #computerlab = place("computer lab", "basic item" , "basic item", "hallway")
 #hallway = place("hallway" , "yeah", "yeah", "wade")
